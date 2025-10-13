@@ -1,6 +1,6 @@
 - name: create ec2 instance and update route53 records
   hosts: local
-  connections: local
+  connection: local
   vars:
     ami_id: ami-09c813fb71547fc4f
     sg_id: sg-0f110578dbed67965

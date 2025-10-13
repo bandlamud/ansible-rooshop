@@ -11,6 +11,10 @@
     - redis
     - mysql
     - rabbitmq
+    - catalogue
+    - user
+    - cart 
+    - shipping
 
   tasks:
   - name: create a ec2 instances

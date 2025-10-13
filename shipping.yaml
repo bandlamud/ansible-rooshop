@@ -1,19 +1,28 @@
-- name: setup shipping server
+- name: configure shipping server
   hosts: shipping
   become: yes
   tasks:
-  - name: install maven package
-    ansible.builtin.package:
+  - name: install maven
+    ansible.builtin.dnf:
       name: "{{ item }}"
       state: present
     loop:
     - maven
     - mysql
 
-  - name: setup root password for system user
+  - name: install mysql python libraries
+    ansible.builtin.pip:
+      executable: pip3.9
+      name: "{{ item }}"
+    loop:
+    - cryptography
+    - PyMySQL
+
+  - name: create roboshop system user
     ansible.builtin.user:
       name: roboshop
-      comment: system user
+      comment: RoboShop System user
+      system: true
       shell: /sbin/nologin
       home: /app
 
@@ -22,66 +31,47 @@
       path: /app
       state: absent
 
-  - name: create /app directory
+  - name: create app directory
     ansible.builtin.file:
-      path: /app
       state: directory
+      path: /app
 
-    
+  - name: Delete shipping file
+    ansible.builtin.file:
+      path: /tmp/shipping.zip
+      state: absent
 
-  - name: download the shipping application
+  - name: download shipping application
     ansible.builtin.get_url:
-      url: https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip 
+      url: https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip
       dest: /tmp/shipping.zip
 
-  - name: unarchive the shipping application
+  - name: extract shipping application
     ansible.builtin.unarchive:
-      src:  /tmp/shipping.zip
+      src: /tmp/shipping.zip
       dest: /app
       remote_src: yes
-      
+
   - name: install dependencies
-    ansible.builtin.command: mvn clean package 
+    ansible.builtin.command: mvn clean package
     args:
       chdir: /app
 
-  - name: move the file to target directory
-    ansible.builtin.command: mv target/shipping-1.0.jar shipping.jar 
+  - name: move jar file
+    ansible.builtin.command: mv target/shipping-1.0.jar shipping.jar
     args:
       chdir: /app
 
-  - name: copy the shipping.service
+  - name: copy shipping service
     ansible.builtin.copy:
       src: shipping.service
       dest: /etc/systemd/system/shipping.service
 
-  - name: ensure shipping service is unmasked
-    ansible.builtin.command: systemctl unmask shipping
-    args:
-      removes: /etc/systemd/system/shipping.service
-    ignore_errors: true
-
-  - name: restart shipping service
-    ansible.builtin.systemd_service:
-      name: shipping
-      daemon_reload: true
-      enabled: yes
-      state: started
-
-
-  - name: install ansible pip 
-    ansible.builtin.pip:
-      executable: pip3.9
-      name: "{{ item }}"
-    loop:
-    - cryptography
-    - PyMySQL
-
-  - name: load the data to mysql
+  - name: import shipping data into mysql
     community.mysql.mysql_db:
       state: import
       name: all
-      login_host: mysql.daws89s.fun
+      login_host: mysql.daws86s.fun
       login_user: root
       login_password: RoboShop@1
       target: "{{ item }}"
@@ -90,10 +80,11 @@
     - /app/db/app-user.sql 
     - /app/db/master-data.sql
 
-  - name: restart shipping service
-    ansible.builtin.service:
+  - name: daemon reload enable and start
+    ansible.builtin.systemd_service:
       name: shipping
-      state: restarted
+      enabled: true
+      state: started
+      daemon_reload: true
 
-    
   

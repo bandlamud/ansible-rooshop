@@ -7,13 +7,13 @@
     zone_id: Z00363011Z6DCTPYPRFG8
     domain_name: daws89s.fun
     instances:
-    - mongodb
-    - redis
-    - mysql
-    - rabbitmq
-    - catalogue
-    - user
-    - cart 
+    # - mongodb
+    # - redis
+    # - mysql
+    # - rabbitmq
+    # - catalogue
+    # - user
+    # - cart 
     - shipping
 
   tasks:

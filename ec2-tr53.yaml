@@ -6,8 +6,9 @@
     sg_id: sg-0f110578dbed67965
     zone_id: Z00363011Z6DCTPYPRFG8
     domain_name: daws89s.fun
-  instances:
-  - mongodb
+    instances:
+    - mongodb
+
   tasks:
   - name: create a ec2 instances
     amazon.aws.ec2_instance:

@@ -8,6 +8,9 @@
     domain_name: daws89s.fun
     instances:
     - mongodb
+    - redis
+    - mysql
+    - rabbitmq
 
   tasks:
   - name: create a ec2 instances

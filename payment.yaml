@@ -23,7 +23,7 @@
       state: directory
 
   - name: download the payment application
-    ansible.builtin.unarchive:
+    ansible.builtin.get_url:
       url: https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip 
       dest: /tmp/payment.zip
 

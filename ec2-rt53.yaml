@@ -7,7 +7,7 @@
     zone_id: Z00363011Z6DCTPYPRFG8
     domain_name: daws89s.fun
     instances:
-    # - mongodb
+    - mongodb
     # - redis
     # - mysql
     # - rabbitmq
@@ -16,7 +16,7 @@
     # - cart 
     # - shipping
     # - payment
-    - frontend
+    # - frontend
   tasks:
   - name: create a ec2 instances
     amazon.aws.ec2_instance:

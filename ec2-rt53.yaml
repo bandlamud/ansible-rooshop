@@ -10,11 +10,12 @@
     # - mongodb
     # - redis
     # - mysql
-    # - rabbitmq
+    - rabbitmq
     # - catalogue
-    # - user
-    # - cart 
-    - shipping
+    - user
+    - cart 
+    # - shipping
+    - payment
 
   tasks:
   - name: create a ec2 instances

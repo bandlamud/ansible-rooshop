@@ -28,6 +28,11 @@
       url: https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
       dest: /tmp/frontend.zip
 
+  - name: create a /app directory 
+    ansible.builtin.file:
+      path: /app
+      state: directory
+
   - name: unarchive frontend application
     ansible.builtin.unarchive:
       src: /tmp/frontend.zip

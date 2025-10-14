@@ -8,15 +8,15 @@
     domain_name: daws89s.fun
     instances:
     - mongodb
-    # - redis
-    # - mysql
-    # - rabbitmq
-    # - catalogue
-    # - user
-    # - cart 
-    # - shipping
-    # - payment
-    # - frontend
+    - redis
+    - mysql
+    - rabbitmq
+    - catalogue
+    - user
+    - cart 
+    - shipping
+    - payment
+    - frontend
   tasks:
   - name: create a ec2 instances
     amazon.aws.ec2_instance:

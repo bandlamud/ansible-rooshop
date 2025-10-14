@@ -24,8 +24,8 @@
 
   - name: download the payment application
     ansible.builtin.unarchive:
-    url: https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip 
-    dest: /tmp/payment.zip
+      url: https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip 
+      dest: /tmp/payment.zip
 
   - name: unarhive the shipping application
     ansible.builtin.unarchive:
